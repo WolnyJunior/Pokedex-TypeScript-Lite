@@ -1,2 +1,5 @@
-const ola: string = "Olá mundo!"
-console.log(ola)
+import { PokeApiService } from "./services/PokeApiService.js"
+
+const fazerBusca = new PokeApiService()
+
+fazerBusca.buscarPokemon("pikachus")
