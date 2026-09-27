@@ -1,6 +1,6 @@
-import { PokemonResumo } from "../models/Pokemon";
+import { PokemonResumo } from "../models/Pokemon.js";
 
-export class Catalogopokemon {
+export class CatalogoPokemon {
     private catalogo: PokemonResumo[] = []
 
     adicionar(pokemon: PokemonResumo): void {
@@ -13,22 +13,23 @@ export class Catalogopokemon {
             return
         }
         this.catalogo.push(pokemon)
+        console.log(`Pokémon: ${pokemon.nome.toUpperCase()}. Adicionado ao catálogo.`)
     }
-    listar():PokemonResumo[]{
+    listar(): PokemonResumo[] {
         return this.catalogo
     }
 
-    remover(id:number):void{
-        const existe=this.catalogo.some(
-            (item)=>item.id===id
+    remover(id: number): void {
+        const existe = this.catalogo.some(
+            (item) => item.id === id
         )
-        if(!existe){
-            console.log("Pokémon não encontrado para exclusão.")
+        if (!existe) {
+            console.log(`Pokémon com ID: ${id}, não encontrado para exclusão.`)
             return
         }
 
-        this.catalogo=this.catalogo.filter(
-            (item)=>item.id!==id
+        this.catalogo = this.catalogo.filter(
+            (item) => item.id !== id
         )
     }
 }
