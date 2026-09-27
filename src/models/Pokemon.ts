@@ -11,9 +11,9 @@ export interface PokemonApiResposta {
     name: string
     height: number
     weight: number
-    tyoes: {
+    types: {
         type: {
             name: string
         }
-    }
+    }[]
 }
