@@ -16,8 +16,6 @@ export class PokeApiService {
                 return null
             }
 
-            console.log(resposta.status)
-
             const dadosPokemon: PokemonApiResposta = await resposta.json()
             const pokemon: PokemonResumo = {
                 id: dadosPokemon.id,

@@ -1,34 +1,18 @@
 import { PokeApiService } from "./services/PokeApiService.js"
-import { Catalogopokemon } from "./services/CatalogoPokemon.js"
-import { PokemonResumo } from "./models/Pokemon.js"
+import { CatalogoPokemon } from "./services/CatalogoPokemon.js"
+import { PokedexController } from "./controllers/PokedexController.js"
+import { iniciarMenu } from "./utils/terminalMenu.js"
 
-const catalogo = new Catalogopokemon()
-const fazerBusca = new PokeApiService()
+async function main(): Promise<void> {
+    const pokeApiService = new PokeApiService()
+    const catalogo = new CatalogoPokemon()
 
-const meowth: PokemonResumo = {
-    id: 52,
-    nome: "Meowth",
-    tipos: ["normal"],
-    altura: 4,
-    peso: 42
-}
-const pikachu: PokemonResumo = {
-    id: 25,
-    nome: "pikachu",
-    tipos: ["eletric"],
-    altura: 4,
-    peso: 60
+    const controller = new PokedexController(
+        pokeApiService,
+        catalogo
+    )
+
+    await iniciarMenu(controller)
 }
 
-
-// fazerBusca.buscarPokemon("pikachus")
-//     .then((pokemon) => {
-//         console.log(pokemon)
-//     })
-
-catalogo.adicionar(pikachu)
-catalogo.adicionar(pikachu)
-catalogo.adicionar(meowth)
-console.log(catalogo.listar())
-catalogo.remover(52)
-console.log(catalogo.listar())
+main()
