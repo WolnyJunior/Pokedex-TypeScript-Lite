@@ -1,11 +1,11 @@
-import { CatalogoPokemon } from "../services/CatalogoPokemon.js";
+import { BoxService } from "../services/BoxService.js";
 import { PokeApiService } from "../services/PokeApiService.js";
 import { formatarPokemon } from "../utils/textFormatters.js";
 
 export class PokedexController {
     constructor(
         private readonly pokeApiService: PokeApiService,
-        private readonly catalogo: CatalogoPokemon
+        private readonly boxService: BoxService
     ) { }
 
     async adicionarPokemon(nomeOuId: string | number): Promise<void> {
@@ -14,23 +14,23 @@ export class PokedexController {
         if (!pokemon) {
             return
         }
-        this.catalogo.adicionar(pokemon)
+        this.boxService.adicionar(pokemon)
     }
 
     listarPokemons(): void {
-        const catalogoPokemons = this.catalogo.listar()
+        const catalogoPokemons = this.boxService.listar()
 
         if (catalogoPokemons.length === 0) {
             console.log("Nenhum Pokémon no catálogo.")
             return
         }
-        
+
         catalogoPokemons.forEach((pokemon) => {
             console.log(formatarPokemon(pokemon))
         })
     }
 
     removerPokemon(id: number): void {
-        this.catalogo.remover(id)
+        this.boxService.remover(id)
     }
 }
