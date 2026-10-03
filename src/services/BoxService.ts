@@ -1,22 +1,33 @@
-import fs, { writeFile } from "node:fs"
+import fs from "node:fs"
+import { LocalBoxError } from "../models/CustomErrors.js"
 import { PokemonResumo } from "../models/Pokemon.js"
 
 export class BoxService {
     private readonly caminhoArquivo = "pc_box.json"
 
     listar(): PokemonResumo[] {
-        const conteudo = fs.readFileSync(
-            this.caminhoArquivo,
-            "utf-8")
-        return JSON.parse(conteudo)
+        try {
+            const conteudo = fs.readFileSync(
+                this.caminhoArquivo,
+                "utf-8")
+            return JSON.parse(conteudo)
 
+        } catch (error) {
+            throw new LocalBoxError("Não foi possível acessar a Pokédex.")
+        }
     }
     salvar(pokemons: PokemonResumo[]): void {
-        fs.writeFileSync(
-            this.caminhoArquivo,
-            JSON.stringify(pokemons, null, 2),
-            "utf-8"
-        )
+        try {
+            fs.writeFileSync(
+                this.caminhoArquivo,
+                JSON.stringify(pokemons, null, 2),
+                "utf-8"
+            )
+
+        } catch (error) {
+            throw new LocalBoxError("Não foi possível salvar a Pokédex")
+        }
+
     }
     adicionar(pokemon: PokemonResumo): void {
         const pokemons = this.listar()
@@ -26,11 +37,12 @@ export class BoxService {
         )
 
         if (existePokemon) {
-            console.log("Este pokémon ja foi adicionado ao catálogo.")
-            return
+            throw new LocalBoxError("Este pokémon ja foi adicionado ao catálogo.")
         }
         pokemons.push(pokemon)
+
         this.salvar(pokemons)
+        
         console.log(`Pokémon: ${pokemon.nome.toUpperCase()}. Adicionado ao catálogo.`)
     }
     remover(id: number): void {
@@ -40,8 +52,7 @@ export class BoxService {
         )
 
         if (!existePokemon) {
-            console.log(`Não existe no catálogo Pokémon com ID:${id}`)
-            return
+            throw new LocalBoxError(`Não existe no catálogo Pokémon com ID:${id}`)
         }
 
         const pokemonAtualizado = pokemons.filter(
