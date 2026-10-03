@@ -47,15 +47,6 @@
     "peso": 42
   },
   {
-    "id": 25,
-    "nome": "pikachu",
-    "tipos": [
-      "electric"
-    ],
-    "altura": 4,
-    "peso": 60
-  },
-  {
     "id": 2,
     "nome": "ivysaur",
     "tipos": [
@@ -64,5 +55,14 @@
     ],
     "altura": 10,
     "peso": 130
+  },
+  {
+    "id": 25,
+    "nome": "pikachu",
+    "tipos": [
+      "electric"
+    ],
+    "altura": 4,
+    "peso": 60
   }
 ]

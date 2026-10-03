@@ -2,6 +2,7 @@ import {
     PokemonResumo,
     PokemonApiResposta
 } from "../models/Pokemon.js"
+import { ApiError } from "../models/CustomErrors.js"
 
 export class PokeApiService {
 
@@ -12,8 +13,7 @@ export class PokeApiService {
             const resposta = await fetch(url)
 
             if (!resposta.ok) {
-                console.log(`Não foi encontrado Pokémon com esse Nome/Id: ${nomeOuId}`)
-                return null
+                throw new ApiError(`Não foi encontrado Pokémon com esse Nome/Id: ${nomeOuId}`)
             }
 
             const dadosPokemon: PokemonApiResposta = await resposta.json()
@@ -27,8 +27,11 @@ export class PokeApiService {
 
             return pokemon
         } catch (error) {
-            console.log("Não foi possível buscar Pokémon.")
-            return null
+            if (error instanceof ApiError) {
+                throw error
+            }
+
+            throw new ApiError("Não foi possível buscar Pokémon.")
         }
     }
 }
